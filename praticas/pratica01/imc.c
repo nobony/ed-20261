@@ -1,30 +1,32 @@
 #include <stdio.h>
-
-void calcular_imc(float peso, float altura) {
-
-    float imc = peso / (altura * altura);
-    
-    printf("Peso: %.2f kg | Altura: %.2f m\n", peso, altura);
-    printf("IMC calculado: %.2f -> ", imc);
-    
-    if (imc < 18.5) {
-        printf("Abaixo do peso\n\n");
-    } else if (imc < 25.0) {
-        printf("Peso normal\n\n");
-    } else if (imc < 30.0) {
-        printf("Sobrepeso\n\n");
-    } else {
-        printf("Obesidade\n\n");
+float calcula_imc(float altura, float peso){
+    if (altura <= 0.0f || peso <= 0.0f){
+        return 0.0f;
     }
+    
+    return peso / (altura *altura);
 }
 
-int main() {
-
-    printf("Teste imc\n");
-    calcular_imc(50.0, 1.70);
-    calcular_imc(70.0, 1.75);
-    calcular_imc(85.0, 1.70);
-    calcular_imc(100.0, 1.65);
+int main(){
     
+    float imc = 0.0f;
+    imc = calcula_imc(0.0f, 50.0f);
+    printf("altura = 0, peso = 50, imc = %.1f => %i\n", imc, imc == 0);
+    
+    imc = calcula_imc(1.75f, 0.0f);
+    printf("altura = 1.75, peso = 0, imc = %.1f => %i\n", imc, imc == 0);
+
+    imc = calcula_imc(1.75f, 50.0f); // abaixo do peso
+    printf("altura = 1.75, peso = 50, imc = %.1f => %i\n", imc, imc < 18.5);
+
+    imc = calcula_imc(1.75f, 65.0f); //normal
+    printf("altura = 1.75, peso = 65.0, imc = %.1f => %i\n", imc, imc >= 18.5 && imc <= 24.9);
+
+    imc = calcula_imc(1.75f, 85.0f); //sobrepeso
+    printf("altura = 1.75, peso = 85.0, imc = %.1f => %i\n", imc, imc >= 25.0 && imc <= 29.9);
+
+    imc = calcula_imc(1.75f, 95.0f); //obesidade
+    printf("altura = 1.75, peso = 95.0, imc = %.1f => %i\n", imc, imc >= 30.0);
+
     return 0;
 }

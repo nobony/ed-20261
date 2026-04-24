@@ -1,39 +1,79 @@
 #include <stdio.h>
 
-void processar_saque(int valor) {
+typedef struct{
+    int n200; 
+    int n100;
+    int n50;
+    int n20;
+    int n10;
+    int n5;
+    int n2;
+    int possivel;
+    } saque;
 
-    if (valor > 1000) {
-        printf("Tentativa de saque: R$ %d -> Erro: Valor maximo permitido e 1000.\n\n", valor);
+saque calcular_notas(int valor) {
+    saque s = {0, 0, 0, 0, 0, 0, 0, 1};
+    if(valor <= 0 || valor > 1000){ 
+        s.possivel = 0;
+        return s;
+    }
+    
+    if (valor == 1 || valor == 3){
+        s.possivel = 0;
+        return s;
+    }
+    
+    if (valor % 2 != 0){
+        s.n5 = 1;
+        valor -= 5;
+    }
+    
+    s.n200 = valor / 200; valor %= 200;
+    s.n100 = valor / 100; valor %= 100;
+    s.n50 = valor / 50; valor %= 50;
+    s.n20 = valor / 20; valor %= 20;
+    s.n10 = valor / 10; valor %= 10;
+    s.n2 = valor / 2; valor %= 2;
+    return s;
+}
+
+void exibir_saque(saque s, int valor_original){
+    if (!s.possivel){
+        printf("\nErro, Nao e possivel sacar R$ %d exatos com as notas disponiveis.\n", valor_original);
         return;
     }
     
-    printf("Valor do saque: R$ %d\n", valor);
-    
-    int notas[] = {200, 100, 50, 20, 10, 5, 2};
-    int resto = valor;
-    int quantidade_notas;
-    
-    for (int i = 0; i < 7; i++) {
-        quantidade_notas = resto / notas[i];
-        
-        if (quantidade_notas > 0) {
-            printf("%d nota(s) de R$ %d\n", quantidade_notas, notas[i]);
-            resto = resto % notas[i];
-        }
-    }
-    
-    if (resto != 0) {
-        printf("Aviso: Nao foi possivel sacar R$ %d (sem notas disponiveis).\n", resto);
-    }
-    printf("\n");
+    printf("\n--- Resultado do Saque: R$ %d ---\n", valor_original);
+    if (s.n200 > 0) printf("%d nota(s) de R$ 200\n", s.n200);
+    if (s.n100 > 0) printf("%d nota(s) de R$ 100\n", s.n100);
+    if (s.n50 > 0) printf("%d nota(s) de R$ 50\n", s.n50);
+    if (s.n20 > 0) printf("%d nota(s) de R$ 20\n", s.n20);
+    if (s.n10 > 0) printf("%d nota(s) de R$ 10\n", s.n10);
+    if (s.n5 > 0) printf("%d nota(s) de R$ 5\n", s.n5);
+    if (s.n2 > 0) printf("%d nota(s) de R$ 2\n", s.n2);
+    printf("----------------------------------\n");
 }
 
 int main() {
-    printf("TESTE\n");
-    
-    processar_saque(587);  // Teste de saque normal
-    processar_saque(100);  // Teste com valor redondo
-    processar_saque(1500); // Teste simulando o erro de limite
-    
+    int valor = 903;
+    saque resultados = calcular_notas(valor);
+    exibir_saque(resultados, valor);
+    printf("\n");
+
+    valor = 139;
+    resultados = calcular_notas(valor);
+    exibir_saque(resultados, valor);
+    printf("\n");
+
+    valor = 57;
+    resultados = calcular_notas(valor);
+    exibir_saque(resultados, valor);
+    printf("\n");
+
+    valor = 0;
+    resultados = calcular_notas(valor);
+    exibir_saque(resultados, valor);
+    printf("\n");
+
     return 0;
 }
