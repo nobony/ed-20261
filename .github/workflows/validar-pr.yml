@@ -40,7 +40,7 @@ jobs:
 
               for file in $FILES; do
                 echo "Compilando $file..."
-                gcc "$file" -o "folde/a.out" -lm
+                gcc "$file" -o "folder/a.out" -lm
                 
                 if [ $? -eq 0 ]; then
                   echo "✅ Arquivo $file compilado com sucesso!"
