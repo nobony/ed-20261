@@ -15,7 +15,7 @@ int main(){
     printf("base: 2.0, expoente: 4, resultado: %.2f\n", potencia);
     
     potencia = calcular_potencia(3.0f, 4);
-    printf("base: 3.0, expoente: 4, resultado: %.2f\n", potencia);
+    printf("base: 3.0, expoente: 4, resultadoo: %.2f\n", potencia);
     
     potencia = calcular_potencia(6.0f, 2);
     printf("base: 6.0, expoente: 2, resultado: %.2f\n", potencia);
